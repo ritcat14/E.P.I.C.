@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import EPIC.Main.STATE;
+
 
 public class Menu extends JPanel{
 	private JFrame mainFrame;
@@ -23,6 +25,14 @@ public class Menu extends JPanel{
     Dimension d = tk.getScreenSize();
     private int sX = d.width;
     private int sY = d.height;
+    private boolean startClicked = false;
+    public enum STATE{
+        onePLAYER,
+        twoPLAYER,
+        threePLAYER,
+        fourPLAYER
+    };
+    public STATE state = STATE.onePLAYER;
 
 	public Menu() {
 		this.setSize(sX, sY);
@@ -38,12 +48,23 @@ public class Menu extends JPanel{
 		this.addMouseListener(new MouseClickHandler());
 		this.addMouseMotionListener(new MouseMoveHandler());
 		initButtons();
+		initCheck();
 		repaint();
 	}
-
+	public void initCheck(){
+		if (startClicked == true){
+			initMultiButtons();
+			}
+	}
 	public void initButtons() {
 		//Game g,int x,int y, int width, int height,String text,Color outlineColor,Color innerColor,Color textColor,int type
 		buttons.add(new Button(sX-75,sY/10,75,20,"Start",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));//add buttons here
+		}
+	public void initMultiButtons(){
+		buttons.add(new Button(sX-75,(sY/10)+20,75,20,"1 Player",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button(sX-75,(sY/10)+40,75,20,"2 Player",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button(sX-75,(sY/10)+60,75,20,"3 Player",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button(sX-75,(sY/10)+80,75,20,"4 Player",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
 	}
 	public void paint(Graphics g) {
 		//Draw your epic title screen stuff here
@@ -71,15 +92,38 @@ public class Menu extends JPanel{
 				if(buttons.get(0).isInside(e.getX(), e.getY())&&!buttons.get(0).hasMouseOver()){
 					buttons.get(0).changeMouseOver(true);
 					buttons.get(0).changeColors(Color.DARK_GRAY, Color.BLUE, Color.LIGHT_GRAY);
-				}
-				if(!buttons.get(0).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
+				}if(!buttons.get(0).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
 					buttons.get(0).changeMouseOver(false);
 					buttons.get(0).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(1).isInside(e.getX(), e.getY())&&buttons.get(1).hasMouseOver()){
+					buttons.get(1).changeMouseOver(true);
+					buttons.get(1).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(1).isInside(e.getX(), e.getY())&&buttons.get(1).hasMouseOver()){
+					buttons.get(1).changeMouseOver(false);
+					buttons.get(1).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(2).isInside(e.getX(), e.getY())&&buttons.get(2).hasMouseOver()){
+					buttons.get(2).changeMouseOver(true);
+					buttons.get(2).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(2).isInside(e.getX(), e.getY())&&buttons.get(2).hasMouseOver()){
+					buttons.get(2).changeMouseOver(false);
+					buttons.get(2).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(3).isInside(e.getX(), e.getY())&&buttons.get(3).hasMouseOver()){
+					buttons.get(3).changeMouseOver(true);
+					buttons.get(3).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(3).isInside(e.getX(), e.getY())&&buttons.get(3).hasMouseOver()){
+					buttons.get(3).changeMouseOver(false);
+					buttons.get(3).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(4).isInside(e.getX(), e.getY())&&buttons.get(4).hasMouseOver()){
+					buttons.get(4).changeMouseOver(true);
+					buttons.get(4).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(4).isInside(e.getX(), e.getY())&&buttons.get(4).hasMouseOver()){
+					buttons.get(4).changeMouseOver(false);
+					buttons.get(4).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
 				}
 			} catch(NullPointerException ex){
 
 			} catch(IndexOutOfBoundsException ex){
-				
+
 			}
 		}
 
@@ -87,8 +131,23 @@ public class Menu extends JPanel{
 	private class MouseClickHandler implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
 			if(buttons.get(0).isInside(e.getX(), e.getY())){
-				 Main g =new Main();
-				 mainFrame.setVisible(false);
+				initMultiButtons();
+				repaint();
+			}if(buttons.get(1).isInside(e.getX(), e.getY())){
+				mainFrame.setVisible(false);
+				Main m = new Main();
+			}if(buttons.get(2).isInside(e.getX(), e.getY())){
+				Main.state = Main.STATE.twoPLAYER;
+				mainFrame.setVisible(false);
+				Main m = new Main();
+			}if(buttons.get(3).isInside(e.getX(), e.getY())){
+				Main.state = Main.STATE.threePLAYER;
+				mainFrame.setVisible(false);
+				Main m = new Main();
+			}if(buttons.get(4).isInside(e.getX(), e.getY())){
+				Main.state = Main.STATE.fourPLAYER;
+				mainFrame.setVisible(false);
+				Main m = new Main();
 			}
 		}
 		@Override
@@ -109,7 +168,7 @@ public class Menu extends JPanel{
 		public void mouseReleased(MouseEvent arg0) {
 		}
 	}
-	
+
 	 public static void main(String args[]) {
 		 Menu t = new Menu();
 	 }

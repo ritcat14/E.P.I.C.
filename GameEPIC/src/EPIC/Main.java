@@ -1,5 +1,6 @@
 
-package EPIC;import java.awt.Color;
+package EPIC;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -23,8 +24,30 @@ public class Main extends JPanel{
     Dimension d = tk.getScreenSize();
     private int sX = d.width;
     private int sY = d.height;
+    private int p1X = sX;
+    private int p1Y = sY;
+    public enum STATE{
+        onePLAYER,
+        twoPLAYER,
+        threePLAYER,
+        fourPLAYER
+    };
+    public static STATE state = STATE.onePLAYER;
 
 	public Main() {
+		if(state == STATE.onePLAYER){
+	        p1X = sX;
+	        p1Y = sY;
+	    }else if(state == STATE.twoPLAYER){
+	        p1X = sX/2;
+	        p1Y = sY;
+	    }else if(state == STATE.threePLAYER){
+	        p1X = sX/2;
+	        p1Y = sY/2;
+	    }else if(state == STATE.fourPLAYER){
+	        p1X = sX/2;
+	        p1Y = sY/2;
+	    }
 		this.setSize(sX, sY);
 		mainFrame=new JFrame("SpaceInvadersEPIC");
 		mainFrame.setUndecorated(true);
@@ -46,7 +69,6 @@ public class Main extends JPanel{
 		buttons.add(new Button(sX-75,sY/10,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));//add buttons here
 	}
 	public void paint(Graphics g) {
-		//Draw your epic title screen stuff here
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.setFont(new Font("serif", Font.BOLD, 20));
@@ -78,7 +100,7 @@ public class Main extends JPanel{
 			} catch(NullPointerException ex){
 
 			} catch(IndexOutOfBoundsException ex){
-				
+
 			}
 		}
 
@@ -109,5 +131,8 @@ public class Main extends JPanel{
 		}
 	}
 	public void notifyDeath() {
+	}
+	public STATE getState(){
+		return state;
 	}
 }
