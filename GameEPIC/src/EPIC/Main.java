@@ -60,21 +60,12 @@ public class Main extends JPanel{
 		mainFrame.setVisible(true);
 		this.addMouseListener(new MouseClickHandler());
 		this.addMouseMotionListener(new MouseMoveHandler());
-		initButtons();
 		repaint();
-	}
-
-	public void initButtons() {
-		//Game g,int x,int y, int width, int height,String text,Color outlineColor,Color innerColor,Color textColor,int type
-		buttons.add(new Button(sX-75,sY/10,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));//add buttons here
 	}
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.setFont(new Font("serif", Font.BOLD, 20));
-		g.setColor(Color.DARK_GRAY);
-		g.drawRoundRect(sX-75, sY/11, 75, 100, 5, 5);
-		g.fillRoundRect(sX-75, sY/11, 75, 100, 5, 5);
 		//Draw all buttons
 		for(int i = 0;i<buttons.size();i++){
 			buttons.get(i).draw((Graphics2D)g);

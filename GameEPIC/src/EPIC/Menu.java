@@ -25,16 +25,25 @@ public class Menu extends JPanel{
     Dimension d = tk.getScreenSize();
     private int sX = d.width;
     private int sY = d.height;
+    private int p1X = sX;
+    private int p1Y = sY;
     private boolean startClicked = false;
-    public enum STATE{
-        onePLAYER,
-        twoPLAYER,
-        threePLAYER,
-        fourPLAYER
-    };
-    public STATE state = STATE.onePLAYER;
+    public EPIC.Main.STATE state = STATE.onePLAYER;
 
 	public Menu() {
+		if(state == STATE.onePLAYER){
+	        p1X = sX;
+	        p1Y = sY;
+	    }else if(state == STATE.twoPLAYER){
+	        p1X = sX/2;
+	        p1Y = sY;
+	    }else if(state == STATE.threePLAYER){
+	        p1X = sX/2;
+	        p1Y = sY/2;
+	    }else if(state == STATE.fourPLAYER){
+	        p1X = sX/2;
+	        p1Y = sY/2;
+	    }
 		this.setSize(sX, sY);
 		mainFrame=new JFrame("SpaceInvadersEPIC");
 		mainFrame.setUndecorated(true);
@@ -49,6 +58,7 @@ public class Menu extends JPanel{
 		this.addMouseMotionListener(new MouseMoveHandler());
 		initButtons();
 		initCheck();
+		// initPlayer();
 		repaint();
 	}
 	public void initCheck(){
@@ -136,18 +146,28 @@ public class Menu extends JPanel{
 			}if(buttons.get(1).isInside(e.getX(), e.getY())){
 				mainFrame.setVisible(false);
 				Main m = new Main();
+				PlayerOne one = new PlayerOne();
 			}if(buttons.get(2).isInside(e.getX(), e.getY())){
 				Main.state = Main.STATE.twoPLAYER;
 				mainFrame.setVisible(false);
 				Main m = new Main();
+				PlayerOne one = new PlayerOne();
+				PlayerTwo two = new PlayerTwo();
+				two.setLocation(sX/2,0);
 			}if(buttons.get(3).isInside(e.getX(), e.getY())){
 				Main.state = Main.STATE.threePLAYER;
 				mainFrame.setVisible(false);
 				Main m = new Main();
+				PlayerOne one = new PlayerOne();
+				PlayerTwo two = new PlayerTwo();
+				two.setLocation(sX/2,0);
 			}if(buttons.get(4).isInside(e.getX(), e.getY())){
 				Main.state = Main.STATE.fourPLAYER;
 				mainFrame.setVisible(false);
 				Main m = new Main();
+				PlayerOne one = new PlayerOne();
+				PlayerTwo two = new PlayerTwo();
+				two.setLocation(sX/2,0);
 			}
 		}
 		@Override
