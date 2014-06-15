@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.lang.Thread.State;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
@@ -25,29 +26,17 @@ public class Main extends JPanel{
     private int sX = d.width;
     private int sY = d.height;
     private int p1X = sX;
-    private int p1Y = sY;
+    private int p1Y = sY; 
     public enum STATE{
         onePLAYER,
         twoPLAYER,
         threePLAYER,
         fourPLAYER
     };
-    public static STATE state = STATE.onePLAYER;
+    public static STATE state;
+	private LinkedList<Player> players = new LinkedList<>();
 
 	public Main() {
-		if(state == STATE.onePLAYER){
-	        p1X = sX;
-	        p1Y = sY;
-	    }else if(state == STATE.twoPLAYER){
-	        p1X = sX/2;
-	        p1Y = sY;
-	    }else if(state == STATE.threePLAYER){
-	        p1X = sX/2;
-	        p1Y = sY/2;
-	    }else if(state == STATE.fourPLAYER){
-	        p1X = sX/2;
-	        p1Y = sY/2;
-	    }
 		this.setSize(sX, sY);
 		mainFrame=new JFrame("SpaceInvadersEPIC");
 		mainFrame.setUndecorated(true);
@@ -60,11 +49,42 @@ public class Main extends JPanel{
 		mainFrame.setVisible(true);
 		this.addMouseListener(new MouseClickHandler());
 		this.addMouseMotionListener(new MouseMoveHandler());
+		if(state == STATE.onePLAYER){
+			init1PlayerArea();
+		}if(state == STATE.twoPLAYER){
+			init2PlayerArea();
+		}if(state == STATE.threePLAYER){
+			init3PlayerArea();
+		}if(state == STATE.fourPLAYER){
+			init4PlayerArea();
+		}
+		initButtons();
 		repaint();
+	}	public void initButtons() {
+		//Game g,int x,int y, int width, int height,String text,Color outlineColor,Color innerColor,Color textColor,int type
+		buttons.add(new Button(sX-75,sY/10,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));//add buttons here
+		}
+	public void init1PlayerArea() {
+		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
+	}public void init2PlayerArea(){
+		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
+		players.add(new Player(sX/2, 0, p1X, p1Y, Color.DARK_GRAY));
+	}public void init3PlayerArea(){
+		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
+		players.add(new Player(sX/2, 0, p1X, p1Y, Color.DARK_GRAY));
+		players.add(new Player((2/3)*sX, sY/2, p1X, p1Y, Color.DARK_GRAY));
+	}public void init4PlayerArea(){
+		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
+		players.add(new Player(sX/2, 0, p1X, p1Y, Color.DARK_GRAY));
+		players.add(new Player(0, sY/2, p1X, p1Y, Color.DARK_GRAY));
+		players.add(new Player(sX/2, sY/2, p1X, p1Y, Color.DARK_GRAY));
 	}
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g.setColor(Color.DARK_GRAY);
+		g.drawRect(sX-75,sY/10,75, 80);
+		g.fillRect(sX-75,sY/10,75, 80);
 		g.setFont(new Font("serif", Font.BOLD, 20));
 		//Draw all buttons
 		for(int i = 0;i<buttons.size();i++){
@@ -87,6 +107,13 @@ public class Main extends JPanel{
 				if(!buttons.get(0).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
 					buttons.get(0).changeMouseOver(false);
 					buttons.get(0).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(buttons.get(1).isInside(e.getX(), e.getY())&&!buttons.get(0).hasMouseOver()){
+					buttons.get(1).changeMouseOver(true);
+					buttons.get(1).changeColors(Color.DARK_GRAY, Color.BLUE, Color.LIGHT_GRAY);
+				}
+				if(!buttons.get(1).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
+					buttons.get(1).changeMouseOver(false);
+					buttons.get(1).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
 				}
 			} catch(NullPointerException ex){
 
@@ -99,7 +126,7 @@ public class Main extends JPanel{
 	private class MouseClickHandler implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
 			if(buttons.get(0).isInside(e.getX(), e.getY())){
-				 Menu g =new Menu();
+				 Menu m =new Menu();
 				 mainFrame.setVisible(false);
 			}
 		}
@@ -122,8 +149,5 @@ public class Main extends JPanel{
 		}
 	}
 	public void notifyDeath() {
-	}
-	public STATE getState(){
-		return state;
 	}
 }

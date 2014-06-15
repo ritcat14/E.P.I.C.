@@ -14,8 +14,6 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import EPIC.Main.STATE;
-
 
 public class Menu extends JPanel{
 	private JFrame mainFrame;
@@ -25,27 +23,11 @@ public class Menu extends JPanel{
     Dimension d = tk.getScreenSize();
     private int sX = d.width;
     private int sY = d.height;
-    private int p1X = sX;
-    private int p1Y = sY;
     private boolean startClicked = false;
-    public EPIC.Main.STATE state = STATE.onePLAYER;
 
 	public Menu() {
-		if(state == STATE.onePLAYER){
-	        p1X = sX;
-	        p1Y = sY;
-	    }else if(state == STATE.twoPLAYER){
-	        p1X = sX/2;
-	        p1Y = sY;
-	    }else if(state == STATE.threePLAYER){
-	        p1X = sX/2;
-	        p1Y = sY/2;
-	    }else if(state == STATE.fourPLAYER){
-	        p1X = sX/2;
-	        p1Y = sY/2;
-	    }
 		this.setSize(sX, sY);
-		mainFrame=new JFrame("SpaceInvadersEPIC");
+		mainFrame=new JFrame("EPIC");
 		mainFrame.setUndecorated(true);
 		JPanel panel = (JPanel) mainFrame.getContentPane();
 		panel.setPreferredSize(new Dimension(sX,sY));
@@ -77,7 +59,6 @@ public class Menu extends JPanel{
 		buttons.add(new Button(sX-75,(sY/10)+80,75,20,"4 Player",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
 	}
 	public void paint(Graphics g) {
-		//Draw your epic title screen stuff here
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 	    g.drawImage(img1, 0, 0, sX, 100, this);
@@ -144,30 +125,17 @@ public class Menu extends JPanel{
 				initMultiButtons();
 				repaint();
 			}if(buttons.get(1).isInside(e.getX(), e.getY())){
-				mainFrame.setVisible(false);
-				Main m = new Main();
-				PlayerOne one = new PlayerOne();
+				Main n = new Main();
+				repaint();
 			}if(buttons.get(2).isInside(e.getX(), e.getY())){
-				Main.state = Main.STATE.twoPLAYER;
-				mainFrame.setVisible(false);
-				Main m = new Main();
-				PlayerOne one = new PlayerOne();
-				PlayerTwo two = new PlayerTwo();
-				two.setLocation(sX/2,0);
+				Main n = new Main();
+				repaint();
 			}if(buttons.get(3).isInside(e.getX(), e.getY())){
-				Main.state = Main.STATE.threePLAYER;
-				mainFrame.setVisible(false);
-				Main m = new Main();
-				PlayerOne one = new PlayerOne();
-				PlayerTwo two = new PlayerTwo();
-				two.setLocation(sX/2,0);
+				Main n = new Main();
+				repaint();
 			}if(buttons.get(4).isInside(e.getX(), e.getY())){
-				Main.state = Main.STATE.fourPLAYER;
-				mainFrame.setVisible(false);
-				Main m = new Main();
-				PlayerOne one = new PlayerOne();
-				PlayerTwo two = new PlayerTwo();
-				two.setLocation(sX/2,0);
+				Main n = new Main();
+				repaint();
 			}
 		}
 		@Override
