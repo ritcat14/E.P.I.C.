@@ -25,18 +25,24 @@ public class Main extends JPanel{
     Dimension d = tk.getScreenSize();
     private int sX = d.width;
     private int sY = d.height;
-    private int p1X = sX;
-    private int p1Y = sY; 
-    public enum STATE{
-        onePLAYER,
-        twoPLAYER,
-        threePLAYER,
-        fourPLAYER
-    };
-    public static STATE state;
-	private LinkedList<Player> players = new LinkedList<>();
+    private int pX = sX;
+    private int pY = sY; 
+    public boolean onePlayer = false;
+    public boolean twoPlayer = false;
+    public boolean threePlayer = false;
+    public boolean fourPlayer = false;
+	private LinkedList<PlayerArea> players = new LinkedList<>();
 
 	public Main() {
+		if (twoPlayer == true){
+			pX = sX/2;
+		}else if (threePlayer = true){
+			pX = sX/2;
+			pY = pY/2;
+		}else if (fourPlayer == true){
+			pX = sX/2;
+			pY = sY/2;
+		}
 		this.setSize(sX, sY);
 		mainFrame=new JFrame("SpaceInvadersEPIC");
 		mainFrame.setUndecorated(true);
@@ -49,42 +55,58 @@ public class Main extends JPanel{
 		mainFrame.setVisible(true);
 		this.addMouseListener(new MouseClickHandler());
 		this.addMouseMotionListener(new MouseMoveHandler());
-		if(state == STATE.onePLAYER){
-			init1PlayerArea();
-		}if(state == STATE.twoPLAYER){
-			init2PlayerArea();
-		}if(state == STATE.threePLAYER){
-			init3PlayerArea();
-		}if(state == STATE.fourPLAYER){
-			init4PlayerArea();
-		}
-		initButtons();
 		repaint();
-	}	public void initButtons() {
-		//Game g,int x,int y, int width, int height,String text,Color outlineColor,Color innerColor,Color textColor,int type
-		buttons.add(new Button(sX-75,sY/10,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));//add buttons here
-		}
-	public void init1PlayerArea() {
-		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
-	}public void init2PlayerArea(){
-		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
-		players.add(new Player(sX/2, 0, p1X, p1Y, Color.DARK_GRAY));
-	}public void init3PlayerArea(){
-		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
-		players.add(new Player(sX/2, 0, p1X, p1Y, Color.DARK_GRAY));
-		players.add(new Player((2/3)*sX, sY/2, p1X, p1Y, Color.DARK_GRAY));
-	}public void init4PlayerArea(){
-		players.add(new Player(0, 0, p1X, p1Y, Color.DARK_GRAY));
-		players.add(new Player(sX/2, 0, p1X, p1Y, Color.DARK_GRAY));
-		players.add(new Player(0, sY/2, p1X, p1Y, Color.DARK_GRAY));
-		players.add(new Player(sX/2, sY/2, p1X, p1Y, Color.DARK_GRAY));
+	}
+	public void initOnePlayerArea() {
+		players.add(new PlayerArea(0, 0, sX, sY));
+		buttons.add(new Button(sX-75,20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+	}
+	public void initTwoPlayerArea() {
+		players.add(new PlayerArea(0, 0, pX, sY));
+		players.add(new PlayerArea(sX/2, 0, pX, sY));
+		buttons.add(new Button(sX-75,20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button((sX/2)-75,20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+	}
+	public void initThreePlayerArea(){
+		players.add(new PlayerArea(0, 0, pX, pY));
+		players.add(new PlayerArea(sX/2, 0, pX, pY));
+		players.add(new PlayerArea(sX/2, sY/2, pX, pY));
+		buttons.add(new Button(sX-75,20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button((sX/2)-75,20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button(sX-75,(sY/2)+20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+	}
+	public void initFourPlayerArea(){
+		players.add(new PlayerArea(0, 0, pX, pY));
+		players.add(new PlayerArea(sX/2, 0, pX, pY));
+		players.add(new PlayerArea(0, sY/2, pX, pY));
+		players.add(new PlayerArea(sX/2, sY/2, pX, pY));
+		buttons.add(new Button(sX-75,20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button((sX/2)-75,20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button(sX-75,(sY/2)+20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+		buttons.add(new Button((sX/2)-75,(sY/2)+20,75,20,"Menu",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
 	}
 	public void paint(Graphics g) {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g.setColor(Color.DARK_GRAY);
-		g.drawRect(sX-75,sY/10,75, 80);
-		g.fillRect(sX-75,sY/10,75, 80);
+		for(int i = 0;i<players.size();i++){
+			players.get(i).draw((Graphics2D)g);
+		}
+		g.setColor(Color.CYAN);
+		if (onePlayer == true){
+			g.fillRect(sX-75,20,75, 80);
+		}else if (twoPlayer == true){
+			g.fillRect(sX-75,20,75, 80);
+			g.fillRect((sX/2)-75,20,75, 80);
+		}else if (threePlayer == true){
+			g.fillRect(sX-75,20,75, 80);
+			g.fillRect((sX/2)-75,20,75, 80);
+			g.fillRect(sX-75,(sY/2)+20,75, 80);
+		}else if (fourPlayer == true){
+			g.fillRect(sX-75,20,75, 80);
+			g.fillRect((sX/2)-75,20,75, 80);
+			g.fillRect(sX-75,(sY/2)+20,75, 80);
+			g.fillRect(75, (sY/2)+20, 75, 80);
+		}
 		g.setFont(new Font("serif", Font.BOLD, 20));
 		//Draw all buttons
 		for(int i = 0;i<buttons.size();i++){
@@ -103,17 +125,27 @@ public class Main extends JPanel{
 				if(buttons.get(0).isInside(e.getX(), e.getY())&&!buttons.get(0).hasMouseOver()){
 					buttons.get(0).changeMouseOver(true);
 					buttons.get(0).changeColors(Color.DARK_GRAY, Color.BLUE, Color.LIGHT_GRAY);
-				}
-				if(!buttons.get(0).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
+				}if(!buttons.get(0).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
 					buttons.get(0).changeMouseOver(false);
 					buttons.get(0).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
 				}if(buttons.get(1).isInside(e.getX(), e.getY())&&!buttons.get(0).hasMouseOver()){
 					buttons.get(1).changeMouseOver(true);
 					buttons.get(1).changeColors(Color.DARK_GRAY, Color.BLUE, Color.LIGHT_GRAY);
-				}
-				if(!buttons.get(1).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
+				}if(!buttons.get(1).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
 					buttons.get(1).changeMouseOver(false);
 					buttons.get(1).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(buttons.get(2).isInside(e.getX(), e.getY())&&!buttons.get(0).hasMouseOver()){
+					buttons.get(2).changeMouseOver(true);
+					buttons.get(2).changeColors(Color.DARK_GRAY, Color.BLUE, Color.LIGHT_GRAY);
+				}if(!buttons.get(2).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
+					buttons.get(2).changeMouseOver(false);
+					buttons.get(2).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(buttons.get(3).isInside(e.getX(), e.getY())&&!buttons.get(0).hasMouseOver()){
+					buttons.get(3).changeMouseOver(true);
+					buttons.get(3).changeColors(Color.DARK_GRAY, Color.BLUE, Color.LIGHT_GRAY);
+				}if(!buttons.get(3).isInside(e.getX(), e.getY())&&buttons.get(0).hasMouseOver()){
+					buttons.get(3).changeMouseOver(false);
+					buttons.get(3).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
 				}
 			} catch(NullPointerException ex){
 
@@ -126,6 +158,15 @@ public class Main extends JPanel{
 	private class MouseClickHandler implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
 			if(buttons.get(0).isInside(e.getX(), e.getY())){
+				 Menu m =new Menu();
+				 mainFrame.setVisible(false);
+			}if(buttons.get(1).isInside(e.getX(), e.getY())){
+				 Menu m =new Menu();
+				 mainFrame.setVisible(false);
+			}if(buttons.get(2).isInside(e.getX(), e.getY())){
+				 Menu m =new Menu();
+				 mainFrame.setVisible(false);
+			}if(buttons.get(3).isInside(e.getX(), e.getY())){
 				 Menu m =new Menu();
 				 mainFrame.setVisible(false);
 			}

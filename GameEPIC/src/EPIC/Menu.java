@@ -51,7 +51,8 @@ public class Menu extends JPanel{
 	public void initButtons() {
 		//Game g,int x,int y, int width, int height,String text,Color outlineColor,Color innerColor,Color textColor,int type
 		buttons.add(new Button(sX-75,sY/10,75,20,"Start",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));//add buttons here
-		}
+		buttons.add(new Button(sX-75,(sX/10)+40,75,20,"Exit",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
+	}
 	public void initMultiButtons(){
 		buttons.add(new Button(sX-75,(sY/10)+20,75,20,"1 Player",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
 		buttons.add(new Button(sX-75,(sY/10)+40,75,20,"2 Player",Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK,1));
@@ -110,6 +111,12 @@ public class Menu extends JPanel{
 				}if(!buttons.get(4).isInside(e.getX(), e.getY())&&buttons.get(4).hasMouseOver()){
 					buttons.get(4).changeMouseOver(false);
 					buttons.get(4).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(5).isInside(e.getX(), e.getY())&&buttons.get(4).hasMouseOver()){
+					buttons.get(5).changeMouseOver(true);
+					buttons.get(5).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
+				}if(!buttons.get(5).isInside(e.getX(), e.getY())&&buttons.get(4).hasMouseOver()){
+					buttons.get(5).changeMouseOver(false);
+					buttons.get(5).changeColors(Color.DARK_GRAY,Color.LIGHT_GRAY,Color.BLACK);
 				}
 			} catch(NullPointerException ex){
 
@@ -125,16 +132,26 @@ public class Menu extends JPanel{
 				initMultiButtons();
 				repaint();
 			}if(buttons.get(1).isInside(e.getX(), e.getY())){
-				Main n = new Main();
-				repaint();
+				System.exit(0);
 			}if(buttons.get(2).isInside(e.getX(), e.getY())){
 				Main n = new Main();
+				n.onePlayer = true;
+				n.initOnePlayerArea();
 				repaint();
 			}if(buttons.get(3).isInside(e.getX(), e.getY())){
 				Main n = new Main();
+				n.twoPlayer = true;
+				n.initTwoPlayerArea();
 				repaint();
 			}if(buttons.get(4).isInside(e.getX(), e.getY())){
 				Main n = new Main();
+				n.threePlayer = true;
+				n.initThreePlayerArea();
+				repaint();
+			}if(buttons.get(5).isInside(e.getX(), e.getY())){
+				Main n = new Main();
+				n.fourPlayer = true;
+				n.initFourPlayerArea();
 				repaint();
 			}
 		}
